@@ -1,7 +1,7 @@
 // src/pages/CRElens/index.jsx
 import { useState } from "react";
 import Landing from "./Landing";
-import Form from "./Form";
+import NarrativeForm from "./NarrativeForm"; // ← changed from Form
 import Dashboard from "./Dashboard";
 import calculateResults from "../../utils/calculator.js";
 
@@ -11,16 +11,16 @@ export default function CRElens() {
   const [results, setResults] = useState(null);
 
   const handleFormComplete = (data) => {
-    setFormData(data);
-    const output = calculateResults(data); // Can be async later
+    setFormData(data); // Store form state
+    const output = calculateResults(data); // Calculate results from form
     setResults(output);
-    setStep("dashboard");
+    setStep("dashboard"); // Move to dashboard
   };
 
   return (
     <div className="min-h-screen w-full px-4 py-6">
       {step === "landing" && <Landing onStart={() => setStep("form")} />}
-      {step === "form" && <Form onComplete={handleFormComplete} />}
+      {step === "form" && <NarrativeForm onComplete={handleFormComplete} />} {/* ← updated */}
       {step === "dashboard" && <Dashboard data={results} />}
     </div>
   );

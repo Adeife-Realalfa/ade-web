@@ -9,11 +9,11 @@ export default {
       colors: {
           // Neutrals
           alabaster: '#faf9fc',  // very light, good for subtle backgrounds
-          whisper:   '#d9dde5',  // a soft off-white
-          silver:    '#b6bfc9',  // mid-tone gray
-          steel:     '#6b7280',  // darker gray for text
-          graphite:  '#374151',  // very dark gray
-          night:     '#111827',  // near-black, high contrast
+          whisper:   '#e2d9e5',  // a soft off-white
+          silver:    '#aba1ab',  // mid-tone gray
+          steel:     '#786b80',  // darker gray for text
+          graphite:  '#4c3751',  // very dark gray
+          night:     '#200c1a',  // near-black, high contrast
 
           // Reds
           blush:     '#fda4af',  // softer red/pink for friendly alerts

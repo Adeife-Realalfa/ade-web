@@ -1,68 +1,81 @@
 // src/pages/CRElens/Form.jsx
 import { useState } from "react";
-
-const TOTAL_FIELDS = 19;
+import { formFields } from "../../data/formFields";
+import FormFieldCard from "../../components/FormFieldCard";
 
 export default function Form({ onComplete }) {
-  const [currentStep, setCurrentStep] = useState(0);
   const [formState, setFormState] = useState({});
+  const [currentPage, setCurrentPage] = useState(0);
 
-  const fields = [
-    // Simulated input field keys
-    "propertyValue", "loanAmount", "interestRate", "termYears", // etc.
+  const isMobile = window.innerWidth <= 768;
+  const steps = isMobile ? 7 : 4;
+  const fieldsPerPage = Math.ceil(formFields.length / steps);
+  const startIndex = currentPage * fieldsPerPage;
+  const currentFields = formFields.slice(startIndex, startIndex + fieldsPerPage);
+
+  const progress = Math.round(((currentPage + 1) / steps) * 100);
+  const encouragements = [
+    "You're doing great!",
+    "Keep going!",
+    "Halfway there!",
+    "Almost done!",
+    "Final stretch!",
+    "You're crushing it!",
+    "Great job!",
   ];
+  const encouragement = encouragements[Math.min(currentPage, encouragements.length - 1)];
 
   const handleChange = (e) => {
     setFormState({ ...formState, [e.target.name]: e.target.value });
   };
 
   const handleNext = () => {
-    if (currentStep < fields.length - 1) setCurrentStep((s) => s + 1);
+    if (currentPage < steps - 1) {
+      setCurrentPage((p) => p + 1);
+    } else {
+      onComplete(formState);
+    }
   };
-
-  const handleSubmit = () => {
-    onComplete(formState); // Exports input to parent
-  };
-
-  const progress = Math.round(((currentStep + 1) / fields.length) * 100);
 
   return (
-    <div className="max-w-lg mx-auto">
-      <div className="mb-4 h-2 bg-gray-200 rounded-full overflow-hidden">
-        <div
-          className="h-full bg-blue-600 transition-all"
-          style={{ width: `${progress}%` }}
-        ></div>
-      </div>
+    <div
+      className="min-h-screen py-0 px-4"
+    >
+      <div className="max-w-2xl mx-auto">
+        <div className="mb-3">
+          <div className="h-3 bg-whisper rounded-full overflow-hidden">
+            <div
+              className="h-full rounded-full transition-all"
+              style={{
+                width: `${progress}%`,
+                background: "linear-gradient(to right, #f93f9b, #8d37de)",
+              }}
+            ></div>
+          </div>
+          <p className="mt-3 text-center text-sm text-steel font-sans italic">
+            {encouragement}
+          </p>
+        </div>
 
-      {/* Example input, dynamically change later */}
-      <div className="space-y-4">
-        <label className="block">
-          <span className="text-gray-700">{fields[currentStep]}</span>
-          <input
-            name={fields[currentStep]}
-            onChange={handleChange}
-            className="mt-1 block w-full border rounded px-3 py-2"
-          />
-        </label>
-      </div>
+        <div className="space-y-4">
+          {currentFields.map((field) => (
+            <FormFieldCard
+              key={field.name}
+              field={field}
+              value={formState[field.name]}
+              onChange={handleChange}
+            />
+          ))}
+        </div>
 
-      <div className="flex justify-end mt-6">
-        {currentStep < fields.length - 1 ? (
+        <div className="flex justify-end mt-8">
           <button
             onClick={handleNext}
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+             className="bg-gradient-to-r from-pink to-purple hover:brightness-110 text-white px-6 py-2 rounded-full font-display tracking-wide shadow-md transition duration-200"
           >
-            Next
+            {currentPage < steps - 1 ? "Next" : "See Results"}
           </button>
-        ) : (
-          <button
-            onClick={handleSubmit}
-            className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
-          >
-            See Results
-          </button>
-        )}
+        </div>
       </div>
     </div>
   );
