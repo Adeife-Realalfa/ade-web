@@ -1,4 +1,8 @@
 // src/pages/About.jsx
+import React from "react";
+import RectangleGrid from "../components/RectangleGrid";
+import VerticalSlider from "../components/VerticalSlider";
+
 export default function About() {
     return (
       <div className="max-w-3xl mx-auto p-6">

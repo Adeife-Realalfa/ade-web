@@ -35,6 +35,10 @@ export default {
               sans: ['IBM Plex Sans', 'sans-serif'],
               display: ['Space Grotesk', 'sans-serif'],
       },
+      gridTemplateColumns: {
+        // Define a 20 column grid: each column will be 1 fraction of the available space
+        '20': 'repeat(20, minmax(0, 1fr))',
+      },
     },
   },
   plugins: [],

@@ -21,7 +21,7 @@ export function calculateMetricScores(payload) {
     tier, // optional manual override
   } = payload;
 
-  // Basic figures
+  // ----- financial ratios -----
   const debtStack = requestedLoanAmount + priorLoansSum;
   const ltv = requestedLoanAmount / toNumber(expectedProjectValue);
   const ltc = requestedLoanAmount / totalProjectCost;
@@ -34,43 +34,55 @@ export function calculateMetricScores(payload) {
       ? (expectedRevenue - totalProjectCost) / expectedRevenue
       : toNumber(expectedProjectValue) / totalProjectCost;
 
-  // ----- Location tier lookup -----
+  // ----- location score -----
   const city = (payload.location || "").split(",")[0].trim();
   const derivedTier = tierByCity[city];
-  const effectiveTier = derivedTier ?? tier; // fallback to provided tier field
-
+  const effectiveTier = derivedTier ?? tier;
   const locationScore = { 1: 10, 2: 6, 3: 3, 4: 0 }[effectiveTier] ?? 0;
 
-  // ----- Individual presales scores -----
+  // ----- presales combined score (50/50) -----
   const presalesCoverageScore = ratioScore.presalesCoverage(presalesCoverageRatio);
   const presalesRatioScore = ratioScore.presales(presalesRatio);
+  const presalesScore = Math.round((presalesCoverageScore + presalesRatioScore) / 2);
 
-  // 50/50 weighted average → single presalesScore
-  const presalesScore = Math.round(
-    (presalesCoverageScore + presalesRatioScore) / 2,
-  );
-
-  // ----- Aggregate scores -----
+  // ----- other scores -----
   const scores = {
     developerExperience: developerExperienceScore(payload),
     stageScore: stageScore(payload.projectStage),
     ltvScore: ltvScore(loanPurpose, ltv),
     ltcScore: ratioScore.ltc(ltc),
-    presalesScore, // combined value
+    presalesScore,
     loanTermScore: ratioScore.loanTerm(loanTerm),
-    priorityScore:
-      {
-        "1st priority": 10,
-        "2nd priority": 6,
-        "3rd priority": 3,
-        "4th priority": 0,
-        "4th priority or more": 0,
-      }[loanPriority] ?? 0,
+    priorityScore: { "1st priority": 10, "2nd priority": 6, "3rd priority": 3, "4th priority": 0, "4th priority or more": 0 }[loanPriority] ?? 0,
     liquidPnwScore: ratioScore.liquidPnw(liquidPnwRatio),
     equityScore: ratioScore.equity(equityRatio),
     profitMarginScore: ratioScore.profitMargin(profitMarginRatio),
     locationScore,
   };
 
-  return scores;
+  // ----- predicted interest rate -----
+  const scoreValues = Object.values(scores);
+  const averageScore = scoreValues.reduce((sum, v) => sum + v, 0) / scoreValues.length;
+
+  // base premium: 10% minus the average of the 11 scores
+  const basePremiumPct = 10 - averageScore;
+
+  // add 300 bps (3%) for each step below 1st priority
+  const priorityStepsMap = {
+    "1st priority": 0,
+    "2nd priority": 1,
+    "3rd priority": 2,
+    "4th priority": 3,
+    "4th priority or more": 3,
+  };
+  const prioritySteps = priorityStepsMap[loanPriority] ?? 3;
+  const priorityPremiumPct = prioritySteps * 3; // 3 % per step
+
+  const totalPremiumPct = +(basePremiumPct + priorityPremiumPct).toFixed(2);
+  const predictedInterestRate = `prime + ${totalPremiumPct}%`;
+
+  return {
+    predictedInterestRate,
+    ...scores,
+  };
 }

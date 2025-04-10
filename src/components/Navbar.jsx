@@ -16,7 +16,7 @@ export default function Navbar() {
 
   return (
     <nav
-      className="w-full py-6 font-display font-light 
+      className="py-6 font-display font-light 
                  flex justify-center md:justify-end pr-0 md:pr-6"
     >
       <div className="bg-steel rounded-full px-1 py-1 flex items-center space-x-1 shadow-md">
