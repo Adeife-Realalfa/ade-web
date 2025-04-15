@@ -1,7 +1,6 @@
 // src/pages/About.jsx
 import React from "react";
-import RectangleGrid from "../components/RectangleGrid";
-import VerticalSlider from "../components/VerticalSlider";
+import GlassJar from "../components/GlassJar";
 
 export default function About() {
     return (
@@ -12,6 +11,9 @@ export default function About() {
           financing options. We provide quick calculations and insights with no data stored or login required.
           This tool is ideal for personal planning or casual financial modeling.
         </p>
+        <div className="w-128 h-24">
+          <GlassJar value={6}  />
+        </div>
       </div>
     );
   }
