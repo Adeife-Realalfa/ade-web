@@ -1,3 +1,4 @@
+// src/components/StaticBars.jsx
 import React from 'react';
 
 const StaticBars = ({ value }) => {
@@ -38,29 +39,25 @@ const StaticBars = ({ value }) => {
   }
 
   return (
-    // Set the outer container to bottom align its children.
-    <div className="flex items-end space-x-4">
-      {/* Percentage display - bottom aligned */}
-      <span className="text-xl text-night font-display font-bold mb-4">{percentage}%</span>
-      {/* Graphic container with an intrinsic aspect ratio */}
-      <div className="relative flex-1" style={{ paddingBottom: '60%' }}>
-        {/* Inner container that actually positions the bars */}
-        <div className="absolute inset-0 flex items-end space-x-4">
-          {barHeights.map((height, index) => (
-            <div
-              key={index}
-              className="relative flex-1"
-              style={{ height: `${height}%` }}
-            >
-              {/* Background rectangle (pill) with low opacity */}
-              <div className="absolute inset-0 bg-silver rounded-full opacity-40" />
-              {/* Render filled rectangle if this bar is completely filled */}
-              {index < fullBars && (
-                <div className={`absolute inset-0 rounded-full ${fillColor}`} />
-              )}
-            </div>
-          ))}
-        </div>
+    <div className="flex flex-col h-full w-full">
+      {/* Percentage display */}
+      <span className="text-xl text-night font-display font-bold">{percentage}%</span>
+      {/* Graphic container now fills whatever height GlassCard gives it */}
+      <div className="flex-1 w-full flex items-end space-x-8">
+        {barHeights.map((height, index) => (
+          <div
+            key={index}
+            className="relative flex-1"
+            style={{ height: `${height}%` }}
+          >
+            {/* Background rectangle (pill) with low opacity */}
+            <div className="absolute inset-0 bg-silver rounded-2xl opacity-30" />
+            {/* Render filled rectangle if this bar is completely filled */}
+            {index < fullBars && (
+              <div className={`absolute inset-0 rounded-2xl ${fillColor}`} />
+            )}
+          </div>
+        ))}
       </div>
     </div>
   );

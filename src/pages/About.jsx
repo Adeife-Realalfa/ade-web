@@ -1,6 +1,7 @@
 // src/pages/About.jsx
 import React from "react";
 import GlassJar from "../components/GlassJar";
+import RiskGuage from "../components/RiskGuage";
 
 export default function About() {
     return (
@@ -11,8 +12,8 @@ export default function About() {
           financing options. We provide quick calculations and insights with no data stored or login required.
           This tool is ideal for personal planning or casual financial modeling.
         </p>
-        <div className="w-128 h-24">
-          <GlassJar value={6}  />
+        <div className="w-64 h-64">
+          <RiskGuage value={0.06}  />
         </div>
       </div>
     );

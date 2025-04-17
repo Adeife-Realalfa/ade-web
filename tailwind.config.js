@@ -39,6 +39,12 @@ export default {
         // Define a 20 column grid: each column will be 1 fraction of the available space
         '20': 'repeat(20, minmax(0, 1fr))',
       },
+      screens: {
+        'xs': '320px',   // iPhone SE and up
+        'xsm': '390px',  // iPhone 14 and up
+        'sm': '640px',   // tailwind’s default
+        // …
+      },
     },
   },
   plugins: [],

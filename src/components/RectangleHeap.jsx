@@ -33,13 +33,13 @@ const RectangleHeap = ({ value }) => {
     if (i < filledStartIndex) {
       // This rectangle is unfilled: use a gray background with low opacity.
       content = (
-        <div className="w-full h-full bg-silver opacity-45 rounded-full"></div>
+        <div className="w-full h-full bg-silver opacity-30 rounded-full"></div>
       );
     } else if (hasPartial && i === filledStartIndex) {
       // This rectangle is only partially filled: layer a fill from the bottom.
       content = (
         <div className="relative w-full h-full rounded-full overflow-hidden">
-          <div className="w-full h-full bg-gray-300 opacity-30 rounded-full"></div>
+          <div className="w-full h-full bg-silver opacity-30 rounded-full"></div>
           <div
             className={`absolute bottom-0 left-0 w-full ${fillClass} rounded-full`}
             style={{ height: `${partialFillPercentage}%` }}

@@ -1,48 +1,45 @@
 import React from 'react';
 
-const TiltedRects = ({ value, containerClassName = "w-full h-24" }) => {
-  // Clamp value to be within 0 and 10.
+const TiltedRects = ({ value, containerClassName = "w-full h-full" }) => {
   const clampedValue = Math.max(0, Math.min(10, value));
-
-  // Calculate the percentage for display.
   const percentage = Math.round((clampedValue / 10) * 100);
 
-  // Determine fill and border color based on percentage thresholds.
-  let fillColor;
-  let borderColor;
+  let fillColor, borderColor;
   if (percentage <= 35) {
-    fillColor = 'bg-blush';
-    borderColor = 'border-blush';
+    fillColor = 'bg-blush'; borderColor = 'border-blush';
   } else if (percentage <= 69) {
-    fillColor = 'bg-sun';
-    borderColor = 'border-sun';
+    fillColor = 'bg-sun';   borderColor = 'border-sun';
   } else {
-    fillColor = 'bg-forest';
-    borderColor = 'border-forest';
+    fillColor = 'bg-forest';borderColor = 'border-forest';
   }
 
-  // Calculate how many of the 20 rectangles should be "filled".
   const filledCount = Math.round(clampedValue * 2);
 
   return (
-    <div className={`flex items-center space-x-4 p-2 ${containerClassName}`}>
-      {/* Responsive rectangle container */}
-      <div className={`flex flex-1 w-full h-full border-2 ${borderColor} rounded-lg p-4`}>
-        {Array.from({ length: 20 }).map((_, idx) => {
-          const isFilled = idx < filledCount;
-          return (
-            <div
-              key={idx}
-              className={`flex-1 mx-0.5 h-full rounded ${
-                isFilled ? fillColor : 'bg-silver opacity-30'
-              }`}
-              style={{ transform: 'skewX(-30deg)' }}
-            />
-          );
-        })}
+    <div className={`flex items-center space-x-4 ${containerClassName}`}>
+      {/* parent clips overflow */}
+      <div className={`relative flex-1 w-full h-full border-2 ${borderColor} rounded-lg overflow-hidden`}>
+        {/* absolutely fill, then align bars to the bottom */}
+        <div className="absolute inset-0 p-2 xsm:p-4 2xl:p-6 flex items-end space-x-1">
+          {Array.from({ length: 20 }).map((_, idx) => {
+            const bg = idx < filledCount ? fillColor : 'bg-silver opacity-30';
+            return (
+              <div
+                key={idx}
+                className={`flex-1 h-full rounded ${bg}`}
+                style={{
+                  transform: 'skewX(-30deg)',
+                  transformOrigin: 'bottom left',
+                }}
+              />
+            );
+          })}
+        </div>
       </div>
-      {/* Display the percentage */}
-      <div className="ml-2 text-xl text-right text-night font-display font-bold">{percentage}%</div>
+
+      <div className="text-xl text-right text-night font-display font-bold">
+        {percentage}%
+      </div>
     </div>
   );
 };

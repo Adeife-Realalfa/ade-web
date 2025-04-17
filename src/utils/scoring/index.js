@@ -47,17 +47,17 @@ export function calculateMetricScores(payload) {
 
   // ----- other scores -----
   const scores = {
-    developerExperience: developerExperienceScore(payload),
-    stageScore: stageScore(payload.projectStage),
+    priorityScore: { "1st priority": 10, "2nd priority": 6, "3rd priority": 3, "4th priority": 0, "4th priority or more": 0 }[loanPriority] ?? 0,
+    experienceScore: developerExperienceScore(payload),
+    pnwScore: ratioScore.liquidPnw(liquidPnwRatio),
+    locationScore,
+    presalesScore,
     ltvScore: ltvScore(loanPurpose, ltv),
     ltcScore: ratioScore.ltc(ltc),
-    presalesScore,
-    loanTermScore: ratioScore.loanTerm(loanTerm),
-    priorityScore: { "1st priority": 10, "2nd priority": 6, "3rd priority": 3, "4th priority": 0, "4th priority or more": 0 }[loanPriority] ?? 0,
-    liquidPnwScore: ratioScore.liquidPnw(liquidPnwRatio),
     equityScore: ratioScore.equity(equityRatio),
-    profitMarginScore: ratioScore.profitMargin(profitMarginRatio),
-    locationScore,
+    profitScore: ratioScore.profitMargin(profitMarginRatio), 
+    stageScore: stageScore(payload.projectStage),
+    termScore: ratioScore.loanTerm(loanTerm),
   };
 
   // ----- predicted interest rate -----
@@ -79,7 +79,7 @@ export function calculateMetricScores(payload) {
   const priorityPremiumPct = prioritySteps * 3; // 3 % per step
 
   const totalPremiumPct = +(basePremiumPct + priorityPremiumPct).toFixed(2);
-  const predictedInterestRate = `prime + ${totalPremiumPct}%`;
+  const predictedInterestRate = totalPremiumPct/100
 
   return {
     predictedInterestRate,

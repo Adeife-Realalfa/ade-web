@@ -1,72 +1,89 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 
 const VerticalSlider = ({ value }) => {
-  // Reference for the slider container for measuring its width.
-  const sliderRef = useRef(null);
-  const [sliderWidth, setSliderWidth] = useState(0);
+  const parentRef = useRef(null);
+  const trackRef  = useRef(null);
 
-  // Update the slider width on mount and when the window is resized.
+  const [dims, setDims] = useState({ parentW: 0, trackH: 0 });
+
+  // Measure parent width & track height
   useEffect(() => {
-    const updateWidth = () => {
-      if (sliderRef.current) {
-        const { width } = sliderRef.current.getBoundingClientRect();
-        setSliderWidth(width);
+    const update = () => {
+      if (parentRef.current && trackRef.current) {
+        const pw = parentRef.current.getBoundingClientRect().width;
+        const th = trackRef.current.getBoundingClientRect().height;
+        setDims({ parentW: pw, trackH: th });
       }
     };
-    updateWidth();
-    window.addEventListener('resize', updateWidth);
-    return () => {
-      window.removeEventListener('resize', updateWidth);
-    };
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
   }, []);
 
-  // Clamp the value between 0 and 10 and calculate the corresponding percentage (0% to 100%).
-  const clampedValue = Math.max(0, Math.min(10, value));
-  const percentage = (clampedValue / 10) * 100;
+  // clamp 0–10 → 0–100%
+  const pct = Math.max(0, Math.min(10, value)) * 10;
 
-  // Determine active gradient and thumb color based on the percentage.
+  // Thumb = full parent width, but never taller than the track
+  const rawThumbD = dims.parentW;
+  const thumbD    = Math.min(rawThumbD, dims.trackH);
+
+  // Track = 80% of thumb
+  const trackW = thumbD * 0.8;
+
+  // Color logic
   let fillClass = '';
-  let thumbClass = '';
-  if (percentage <= 35) {
-    fillClass = 'bg-gradient-to-t from-blush to-fire';
-  } else if (percentage <= 69) {
-    fillClass = 'bg-gradient-to-t from-sun to-amber';
-  } else {
-    fillClass = 'bg-gradient-to-t from-leaf to-forest';
-  }
+  if (pct <= 35)       fillClass = 'bg-gradient-to-t from-blush to-fire';
+  else if (pct <= 69)  fillClass = 'bg-gradient-to-t from-sun to-amber';
+  else                 fillClass = 'bg-gradient-to-t from-leaf to-forest';
 
-  // Calculate the thumb's diameter.
-  // Here, the thumb's diameter is 130% of the slider's width.
-  const thumbDiameter = sliderWidth * 1.3;
+  // Calculate bottom offset so that:
+  //   pct=0 → bottom: 0px
+  //   pct=100 → bottom: trackH - thumbD
+  const bottomOffset = (pct / 100) * (dims.trackH - thumbD);
 
   return (
     <div className="w-full h-full flex flex-col items-center">
-      {/* Display the value as a percentage at the top */}
-      <div className="mb-2 text-night font-display font-bold text-xl">{Math.round(percentage)}%</div>
-      {/* Slider container */}
-      <div ref={sliderRef} className="relative w-full flex-1 rounded-full">
-        {/* Unfilled gray background with low opacity */}
-        <div className="absolute inset-0 bg-silver opacity-40 rounded-full" />
-        {/* Filled gradient portion from bottom up */}
+      {/* Percentage label */}
+      <div className="mb-2 text-night font-display font-bold text-xl">
+        {Math.round(pct)}%
+      </div>
+
+      {/* Parent wrapper we measure for width */}
+      <div
+        ref={parentRef}
+        className="relative w-full flex-1 overflow-visible flex justify-center"
+      >
+        {/* The track itself, we measure its height */}
         <div
-          className={`absolute bottom-0 left-0 w-full ${fillClass} rounded-full`}
-          style={{ height: `${percentage}%` }}
-        />
-        {/* Static slider thumb positioned at the top edge of the filled portion */}
-        <div
-          className="absolute left-1/2 transform -translate-x-1/2"
+          ref={trackRef}
+          className="relative rounded-full"
           style={{
-            // Offset the thumb so that its center aligns with the top of the fill.
-            bottom: `calc(${percentage}% - ${thumbDiameter / 1.2}px)`,
+            width:  `${trackW}px`,
+            height: '100%',
           }}
         >
+          {/* Track background */}
+          <div className="absolute inset-0 bg-silver opacity-30 rounded-full" />
+
+          {/* Filled portion */}
           <div
-            className={`rounded-full shadow-md ${fillClass}`}
-            style={{
-              width: thumbDiameter,
-              height: thumbDiameter,
-            }}
+            className={`absolute bottom-0 left-0 w-full ${fillClass} rounded-full`}
+            style={{ height: `${pct}%` }}
           />
+
+          {/* Thumb */}
+          <div
+            className="absolute left-1/2 transform -translate-x-1/2"
+            style={{
+              width:  `${thumbD}px`,
+              height: `${thumbD}px`,
+              bottom: `${bottomOffset}px`,
+            }}
+          >
+            <div
+              className={`w-full h-full rounded-full shadow-md ${fillClass}`}
+            />
+          </div>
         </div>
       </div>
     </div>

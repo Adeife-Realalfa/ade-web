@@ -27,7 +27,7 @@ const RectangleGrid = ({ value }) => {
   const rectangles = Array.from({ length: 100 }, (_, idx) => (
     <div
       key={idx}
-      className={`w-full aspect-square rounded-full ${idx < filledCount ? fillColor : 'bg-silver opacity-50'}`}
+      className={`w-full aspect-square rounded-full ${idx < filledCount ? fillColor : 'bg-silver opacity-30'}`}
     />
   ));
   

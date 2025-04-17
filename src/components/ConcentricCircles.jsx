@@ -1,114 +1,93 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useLayoutEffect, useRef, useState } from 'react';
 
-const ConcentricCricles = ({ value }) => {
-  // Reference to the outer flex container; we will measure its parent’s height.
+const ConcentricCircles = ({ value }) => {
+  // Ref to the element that defines our max available width/height
   const containerRef = useRef(null);
-  // State for the size (both height and width, since we need a square)
-  const [containerSize, setContainerSize] = useState(200); // default fallback size
+  // The size (in px) we'll use for our square drawing area
+  const [size, setSize] = useState(0);
 
-  useEffect(() => {
-    // Function to update size by measuring parent's height
+  useLayoutEffect(() => {
+    if (!containerRef.current) return;
     const updateSize = () => {
-      if (containerRef.current && containerRef.current.parentElement) {
-        // Get parent's height (in pixels)
-        const parentHeight = containerRef.current.parentElement.offsetHeight;
-        // Use parent's height if it is available, otherwise use the fallback size
-        setContainerSize(parentHeight > 0 ? parentHeight : 200);
-      }
+      const { width, height } = containerRef.current.getBoundingClientRect();
+      // pick the smaller so we never overflow
+      setSize(Math.min(width, height));
     };
 
     updateSize();
-
-    // Set up ResizeObserver on the parent element so that changes in height update the component.
-    const resizeObserver = new ResizeObserver(() => {
-      updateSize();
-    });
-
-    if (containerRef.current && containerRef.current.parentElement) {
-      resizeObserver.observe(containerRef.current.parentElement);
-    }
-
-    // Listen to window resize as a backup.
+    const ro = new ResizeObserver(updateSize);
+    ro.observe(containerRef.current);
     window.addEventListener('resize', updateSize);
 
-    // Clean up on unmount.
     return () => {
-      if (containerRef.current && containerRef.current.parentElement) {
-        resizeObserver.unobserve(containerRef.current.parentElement);
-      }
+      ro.disconnect();
       window.removeEventListener('resize', updateSize);
     };
   }, []);
 
-  // Clamp the input value between 0 and 10 and compute a percentage.
+  // ——— value → percentage & color logic ———
   const safeValue = Math.min(Math.max(value, 0), 10);
   const percentage = Math.round((safeValue / 10) * 100);
 
-  // Determine fill color based on percentage thresholds.
-  let fillColor = '';
-  if (percentage <= 35) {
-    fillColor = 'bg-blush';
-  } else if (percentage <= 69) {
-    fillColor = 'bg-sun';
-  } else {
-    fillColor = 'bg-forest';
-  }
+  let fillColor;
+  if (percentage <= 35) fillColor = 'bg-blush';
+  else if (percentage <= 69) fillColor = 'bg-sun';
+  else fillColor = 'bg-forest';
 
-  // Define our rings (5 concentric rings) with how many circles and the radius (as a percentage of the container).
+  // ——— concentric rings definition & circle positions ———
   const rings = [
-    { count: 1, radiusPercent: 0 },  // central circle
+    { count: 1, radiusPercent: 0 },
     { count: 6, radiusPercent: 15 },
     { count: 12, radiusPercent: 25 },
     { count: 18, radiusPercent: 35 },
     { count: 24, radiusPercent: 45 },
   ];
 
-  // Calculate circle coordinates in percentages (relative to a square container).
-  let circles = [];
-  rings.forEach((ring) => {
-    for (let i = 0; i < ring.count; i++) {
-      let x = 50;
-      let y = 50;
+  // Build an array of { x, y } coords in % of the container
+  const circles = rings.flatMap((ring) =>
+    Array.from({ length: ring.count }, (_, i) => {
+      let x = 50, y = 50;
       if (ring.radiusPercent > 0) {
         const angle = (2 * Math.PI / ring.count) * i;
         x = 50 + ring.radiusPercent * Math.cos(angle);
         y = 50 + ring.radiusPercent * Math.sin(angle);
       }
-      circles.push({ x, y });
-    }
-  });
+      return { x, y };
+    })
+  );
 
-  // Determine the number of circles to fill (from the center outward)
   const totalCircles = circles.length;
   const filledCount = Math.round(totalCircles * (percentage / 100));
-
-  // Size of each small circle as a percentage of the container size.
-  const circleDiameterPercent = 8; // Adjust as needed for your design
+  const circleDiameterPercent = 8; // size of each small dot
 
   return (
-    <div className="flex items-center" ref={containerRef}>
-      {/* Left side: Percentage text */}
-      <div className="mr-4 font-display text-night"  style={{ fontSize: `${containerSize * 0.3}px`}}>
+    <div
+      ref={containerRef}
+      className="flex items-center justify-center w-full h-full"
+    >
+      {/* Percentage text (scales with size) */}
+      <div
+        className="mr-4 font-display text-night"
+        style={{ fontSize: `${size * 0.3}px` }}
+      >
         {percentage}%
       </div>
-      {/* Right side: Container whose size is set by the parent's height */}
+
+      {/* The square in which we draw our circles */}
       <div
         className="relative"
-        style={{
-          height: containerSize,
-          width: containerSize,
-        }}
+        style={{ width: size, height: size }}
       >
-        {circles.map((circle, index) => (
+        {circles.map(({ x, y }, i) => (
           <div
-            key={index}
+            key={i}
             className={`absolute rounded-full ${
-              index < filledCount ? fillColor : 'bg-silver opacity-50'
+              i < filledCount ? fillColor : 'bg-silver opacity-30'
             }`}
             style={{
-              left: `${circle.x}%`,
-              top: `${circle.y}%`,
-              width: `${circleDiameterPercent}%`,
+              left:  `${x}%`,
+              top:   `${y}%`,
+              width:  `${circleDiameterPercent}%`,
               height: `${circleDiameterPercent}%`,
               transform: 'translate(-50%, -50%)',
             }}
@@ -119,4 +98,4 @@ const ConcentricCricles = ({ value }) => {
   );
 };
 
-export default ConcentricCricles;
+export default ConcentricCircles;

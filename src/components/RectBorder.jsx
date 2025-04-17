@@ -53,7 +53,7 @@ const RectBorder = ({ value }) => {
           height="50"
           rx="10"
           fill="transparent"
-          stroke="silver"
+          stroke="#aba1ab"
           strokeWidth="15"
           strokeOpacity="0.3"
           vectorEffect="non-scaling-stroke"
