@@ -19,7 +19,7 @@ const RectangleGrid = ({ value }) => {
   } else if (percentage <= 69) {
     fillColor = 'bg-sun';
   } else {
-    fillColor = 'bg-forest';
+    fillColor = 'bg-leaf';
   }
   
   // Create an array of 100 rectangles. Using w-full and aspect-square
@@ -27,7 +27,7 @@ const RectangleGrid = ({ value }) => {
   const rectangles = Array.from({ length: 100 }, (_, idx) => (
     <div
       key={idx}
-      className={`w-full aspect-square rounded-full ${idx < filledCount ? fillColor : 'bg-silver opacity-30'}`}
+      className={`w-full aspect-square rounded-full ${idx < filledCount ? fillColor : 'bg-whisper opacity-60'}`}
     />
   ));
   
@@ -41,7 +41,7 @@ const RectangleGrid = ({ value }) => {
       <div className="grid grid-cols-[repeat(20,minmax(0,1fr))] gap-1 w-full h-full">
         {rectangles}
       </div>
-      <div className="ml-4 mt-1 text-xl text-right text-night font-display font-bold">{percentage}%</div>
+      <div className="ml-4 mt-1 text-xl text-right text-alabaster font-display font-bold">{percentage}%</div>
     </div>
   );
 };

@@ -35,13 +35,13 @@ const StaticBars = ({ value }) => {
   } else if (percentage <= 69) {
     fillColor = 'bg-sun';
   } else {
-    fillColor = 'bg-forest';
+    fillColor = 'bg-leaf';
   }
 
   return (
     <div className="flex flex-col h-full w-full">
       {/* Percentage display */}
-      <span className="text-xl text-night font-display font-bold">{percentage}%</span>
+      <span className="text-xl text-alabaster font-display font-bold">{percentage}%</span>
       {/* Graphic container now fills whatever height GlassCard gives it */}
       <div className="flex-1 w-full flex items-end space-x-8">
         {barHeights.map((height, index) => (
@@ -51,7 +51,7 @@ const StaticBars = ({ value }) => {
             style={{ height: `${height}%` }}
           >
             {/* Background rectangle (pill) with low opacity */}
-            <div className="absolute inset-0 bg-silver rounded-2xl opacity-30" />
+            <div className="absolute inset-0 bg-whisper rounded-2xl opacity-50" />
             {/* Render filled rectangle if this bar is completely filled */}
             {index < fullBars && (
               <div className={`absolute inset-0 rounded-2xl ${fillColor}`} />

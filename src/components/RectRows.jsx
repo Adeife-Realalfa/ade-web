@@ -16,7 +16,7 @@ const RectRows = ({ value }) => {
   } else if (percentage <= 69) {
     fillColor = 'bg-sun';
   } else {
-    fillColor = 'bg-forest';
+    fillColor = 'bg-leaf';
   }
 
   // Build a cells array for our 10 rectangles.
@@ -35,13 +35,13 @@ const RectRows = ({ value }) => {
           <div
             key={cell.id}
             className={`w-full h-full rounded ${
-              cell.isFilled ? fillColor : 'bg-silver opacity-30'
+              cell.isFilled ? fillColor : 'bg-whisper opacity-50'
             }`}
           />
         ))}
       </div>
 
-      <div className="ml-4 self-center text-xl text-right text-night font-display font-bold">
+      <div className="ml-4 self-center text-xl text-right text-alabaster font-display font-bold">
         {percentage.toFixed(0)}%
       </div>
     </div>

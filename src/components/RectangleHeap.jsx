@@ -12,7 +12,7 @@ const RectangleHeap = ({ value }) => {
   } else if (percentage <= 69) {
     fillClass = "bg-sun";
   } else {
-    fillClass = "bg-forest";
+    fillClass = "bg-leaf";
   }
 
   const totalRectangles = 10;
@@ -33,13 +33,13 @@ const RectangleHeap = ({ value }) => {
     if (i < filledStartIndex) {
       // This rectangle is unfilled: use a gray background with low opacity.
       content = (
-        <div className="w-full h-full bg-silver opacity-30 rounded-full"></div>
+        <div className="w-full h-full bg-whisper opacity-50 rounded-full"></div>
       );
     } else if (hasPartial && i === filledStartIndex) {
       // This rectangle is only partially filled: layer a fill from the bottom.
       content = (
         <div className="relative w-full h-full rounded-full overflow-hidden">
-          <div className="w-full h-full bg-silver opacity-30 rounded-full"></div>
+          <div className="w-full h-full bg-whisper opacity-50 rounded-full"></div>
           <div
             className={`absolute bottom-0 left-0 w-full ${fillClass} rounded-full`}
             style={{ height: `${partialFillPercentage}%` }}
@@ -67,7 +67,7 @@ const RectangleHeap = ({ value }) => {
   return (
     <div className="w-full h-full flex flex-col items-center">
       {/* Display the percentage at the top */}
-      <div className="mb-2 text-xl text-night font-display font-bold">{percentage}%</div>
+      <div className="mb-2 text-xl text-alabaster font-display font-bold">{percentage}%</div>
       <div className="w-full flex-1 flex flex-col justify-end">
         {rectangles}
       </div>

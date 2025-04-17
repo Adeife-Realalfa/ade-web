@@ -14,7 +14,7 @@ const RectBorder = ({ value }) => {
   } else if (percent < 70) {
     strokeColor = '#fde047'; // sun color (example)
   } else {
-    strokeColor = '#10b981'; // forest color (example)
+    strokeColor = '#10b981'; // leaf color (example)
   }
 
   // Define an open path for the rounded rectangle.
@@ -73,7 +73,7 @@ const RectBorder = ({ value }) => {
       </svg>
       {/* Centered fixed-size text overlay */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <span className="text-night font-display font-bold text-xl">{percent}%</span>
+        <span className="text-alabaster font-display font-bold text-xl">{percent}%</span>
       </div>
     </div>
   );

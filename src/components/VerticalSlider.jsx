@@ -34,7 +34,7 @@ const VerticalSlider = ({ value }) => {
   let fillClass = '';
   if (pct <= 35)       fillClass = 'bg-gradient-to-t from-blush to-fire';
   else if (pct <= 69)  fillClass = 'bg-gradient-to-t from-sun to-amber';
-  else                 fillClass = 'bg-gradient-to-t from-leaf to-forest';
+  else                 fillClass = 'bg-gradient-to-t from-leaf to-leaf';
 
   // Calculate bottom offset so that:
   //   pct=0 → bottom: 0px
@@ -44,7 +44,7 @@ const VerticalSlider = ({ value }) => {
   return (
     <div className="w-full h-full flex flex-col items-center">
       {/* Percentage label */}
-      <div className="mb-2 text-night font-display font-bold text-xl">
+      <div className="mb-2 text-alabaster font-display font-bold text-xl">
         {Math.round(pct)}%
       </div>
 
@@ -63,7 +63,7 @@ const VerticalSlider = ({ value }) => {
           }}
         >
           {/* Track background */}
-          <div className="absolute inset-0 bg-silver opacity-30 rounded-full" />
+          <div className="absolute inset-0 bg-whisper opacity-50 rounded-full" />
 
           {/* Filled portion */}
           <div

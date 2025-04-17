@@ -45,7 +45,7 @@ export default function NarrativeForm({ onComplete }) {
           name={name}
           value={value}
           onChange={handleChange}
-          className="inline-block mx-1 px-2 py-1 rounded bg-white text-steel border border-silver"
+          className="inline-block mx-1 px-2 py-1 rounded bg-white text-silver border border-whisper"
         >
           <option value="">Select</option>
           {field.options.map((opt) => (
@@ -64,7 +64,7 @@ export default function NarrativeForm({ onComplete }) {
         name={name}
         value={value}
         onChange={handleChange}
-        className="inline-block mx-1 px-2 py-1 rounded border border-silver text-steel"
+        className="inline-block mx-1 px-2 py-1 rounded border border-whisper text-silver"
         placeholder={field.label}
       />
     );
@@ -124,7 +124,7 @@ export default function NarrativeForm({ onComplete }) {
       <div className="mb-4">
         <div className="h-2 bg-whisper rounded-full overflow-hidden">
           <div
-            className="h-full bg-gradient-to-r from-pink to-purple"
+            className="h-full bg-gradient-to-r from-skyGlow via-electricBlue to-neonIndigo"
             style={{ width: `${progress}%` }}
           ></div>
         </div>
@@ -139,9 +139,9 @@ export default function NarrativeForm({ onComplete }) {
       <div className="flex justify-end mt-6">
         <button
           onClick={handleNext}
-          className="bg-gradient-to-r from-pink to-purple hover:brightness-110 text-white px-6 py-2 rounded-2xl font-display tracking-wide shadow-md transition duration-200"
+          className="bg-gradient-to-r from-skyGlow via-electricBlue to-neonIndigo hover:brightness-110 text-night px-6 py-2 rounded-2xl font-display tracking-wide shadow-md transition duration-200"
         >
-          {currentPage === pages.length - 1 ? "Finish" : "Next"}
+          {currentPage === pages.length - 1 ? "See Results" : "Next"}
         </button>
       </div>
     </div>

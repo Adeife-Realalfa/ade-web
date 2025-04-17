@@ -28,7 +28,7 @@ const ActiveBox = ({ value }) => {
   const rectangles = [
     { color: 'bg-blush' },
     { color: 'bg-sun' },
-    { color: 'bg-forest' },
+    { color: 'bg-leaf' },
   ];
 
   return (
@@ -54,7 +54,7 @@ const ActiveBox = ({ value }) => {
             >
               {/* Only show percentage text on the active rectangle */}
               {index === activeIndex && (
-                <span className="text-night font-display font-bold text-xl">
+                <span className="text-alabaster font-display font-bold text-xl">
                   {percentage}%
                 </span>
               )}

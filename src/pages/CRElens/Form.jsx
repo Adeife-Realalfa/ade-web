@@ -52,7 +52,7 @@ export default function Form({ onComplete }) {
               }}
             ></div>
           </div>
-          <p className="mt-3 text-center text-sm text-steel font-sans italic">
+          <p className="mt-3 text-center text-sm text-silver font-sans italic">
             {encouragement}
           </p>
         </div>
@@ -71,7 +71,7 @@ export default function Form({ onComplete }) {
         <div className="flex justify-end mt-8">
           <button
             onClick={handleNext}
-             className="bg-gradient-to-r from-pink to-purple hover:brightness-110 text-white px-6 py-2 rounded-full font-display tracking-wide shadow-md transition duration-200"
+             className="bg-gradient-to-r from-aqua to-sky hover:brightness-110 text-white px-6 py-2 rounded-full font-display tracking-wide shadow-md transition duration-200"
           >
             {currentPage < steps - 1 ? "Next" : "See Results"}
           </button>

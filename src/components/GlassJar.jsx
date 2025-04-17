@@ -24,7 +24,7 @@ const GlassJar = ({ value }) => {
     fillColorClass = "bg-sun";
     fillHex = "#fde047"; // Tailwind yellow-500
   } else {
-    fillColorClass = "bg-forest";
+    fillColorClass = "bg-leaf";
     fillHex = "#10b981"; // Tailwind green-500
   }
   
@@ -66,7 +66,7 @@ const GlassJar = ({ value }) => {
       </div>
       
       {/* Centered percentage label */}
-      <div className="absolute inset-0 flex items-center justify-center text-night font-display font-bold text-xl">
+      <div className="absolute inset-0 flex items-center justify-center text-alabaster font-display font-bold text-xl">
         {percentage}%
       </div>
     </div>

@@ -32,7 +32,7 @@ const ConcentricCircles = ({ value }) => {
   let fillColor;
   if (percentage <= 35) fillColor = 'bg-blush';
   else if (percentage <= 69) fillColor = 'bg-sun';
-  else fillColor = 'bg-forest';
+  else fillColor = 'bg-leaf';
 
   // ——— concentric rings definition & circle positions ———
   const rings = [
@@ -67,7 +67,7 @@ const ConcentricCircles = ({ value }) => {
     >
       {/* Percentage text (scales with size) */}
       <div
-        className="mr-4 font-display text-night"
+        className="mr-4 font-display text-alabaster"
         style={{ fontSize: `${size * 0.3}px` }}
       >
         {percentage}%
@@ -82,7 +82,7 @@ const ConcentricCircles = ({ value }) => {
           <div
             key={i}
             className={`absolute rounded-full ${
-              i < filledCount ? fillColor : 'bg-silver opacity-30'
+              i < filledCount ? fillColor : 'bg-whisper opacity-50'
             }`}
             style={{
               left:  `${x}%`,

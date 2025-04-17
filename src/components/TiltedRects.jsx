@@ -10,7 +10,7 @@ const TiltedRects = ({ value, containerClassName = "w-full h-full" }) => {
   } else if (percentage <= 69) {
     fillColor = 'bg-sun';   borderColor = 'border-sun';
   } else {
-    fillColor = 'bg-forest';borderColor = 'border-forest';
+    fillColor = 'bg-leaf';borderColor = 'border-leaf';
   }
 
   const filledCount = Math.round(clampedValue * 2);
@@ -22,7 +22,7 @@ const TiltedRects = ({ value, containerClassName = "w-full h-full" }) => {
         {/* absolutely fill, then align bars to the bottom */}
         <div className="absolute inset-0 p-2 xsm:p-4 2xl:p-6 flex items-end space-x-1">
           {Array.from({ length: 20 }).map((_, idx) => {
-            const bg = idx < filledCount ? fillColor : 'bg-silver opacity-30';
+            const bg = idx < filledCount ? fillColor : 'bg-whisper opacity-50';
             return (
               <div
                 key={idx}
@@ -37,7 +37,7 @@ const TiltedRects = ({ value, containerClassName = "w-full h-full" }) => {
         </div>
       </div>
 
-      <div className="text-xl text-right text-night font-display font-bold">
+      <div className="text-xl text-right text-alabaster font-display font-bold">
         {percentage}%
       </div>
     </div>

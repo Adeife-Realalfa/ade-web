@@ -68,7 +68,7 @@ const RiskGuage = ({ value }) => {
     <div className="grid grid-rows-[1fr_auto] h-full p-2">
       {/* TOP ROW: label + donut */}
       <div className="grid grid-cols-[1fr_1.4fr] items-center h-full w-full">
-        <span className="md:text-3xl text-xl font-bold text-night font-display">
+        <span className="md:text-3xl text-xl font-bold text-alabaster font-display">
           Prime + {(value * 100).toFixed(0)}%
         </span>
         <div className="flex items-center justify-end h-full">
@@ -79,7 +79,7 @@ const RiskGuage = ({ value }) => {
       </div>
 
       {/* BOTTOM ROW: risk message */}
-      <div className="mt-2 text-xs text-steel font-display text-center">
+      <div className="mt-2 text-xs text-silver font-display text-center">
         {segments[idx].risk}
       </div>
     </div>

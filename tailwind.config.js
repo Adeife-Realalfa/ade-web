@@ -8,28 +8,29 @@ export default {
     extend: {
       colors: {
           // Neutrals
-          alabaster: '#faf9fc',  // very light, good for subtle backgrounds
-          whisper:   '#e2d9e5',  // a soft off-white
-          silver:    '#aba1ab',  // mid-tone gray
-          steel:     '#786b80',  // darker gray for text
-          graphite:  '#4c3751',  // very dark gray
-          night:     '#200c1a',  // near-black, high contrast
+          alabaster: '#ddfaff',  // very light, good for subtle backgrounds
+          whisper:   '#bbf3fa',  // a soft off-white
+          silver:    '#9eafc4',  // mid-tone gray
+          steel:     '#6492a8',  // darker gray for text
+          graphite:  '#1f3047',  // very dark gray
+          night:     '#011227',  // near-black, high contrast
 
           // Reds
           blush:     '#fda4af',  // softer red/pink for friendly alerts
           fire:      '#d94545',  // bold red for errors or emphasis
 
           // Yellows
-          sun:       '#fde047',  // sunny yellow for highlights
+          sun:       '#f8e78c',  // sunny yellow for highlights
           amber:     '#f59e0b',  // deeper yellow/orange for warnings
 
           // Greens
-          leaf:      '#bbf7d0',  // light mint for success backgrounds
+          leaf:      '#88ffa6',  // light mint for success backgrounds
           forest:    '#10b981',  // richer green for strong success messages
 
           //gradient colours
-          pink:       '#f93f9b',
-          purple:     '#8d37de',
+          neonIndigo: '#00fdc8',
+          electricBlue: '#00cfff',
+          skyGlow: '#bcfdff',
       },
       fontFamily: {
               sans: ['IBM Plex Sans', 'sans-serif'],

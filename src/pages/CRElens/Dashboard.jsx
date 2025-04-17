@@ -35,7 +35,7 @@ export default function Dashboard({ data, className = "" }) {
       `}
     >
       {/* Fixed header */}
-      <h2 className="text-3xl text-night font-display px-4 py-1 shrink-0">
+      <h2 className="text-3xl text-alabaster font-display px-4 py-1 shrink-0">
         Your Results
       </h2>
 
